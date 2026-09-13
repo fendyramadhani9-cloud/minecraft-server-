@@ -1,341 +1,242 @@
-# minecraft-server-
+<div align="center">
 
-# Minecraft Fabric 1.21.11 Server + Bedrock Crossplay Bridge (All-in-One)
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=1,11,21&height=200&section=header&text=Minecraft%20Fabric%201.21.11&fontSize=42&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=Universal%20Crossplay%20Server%20(Java%20%2B%20Bedrock)&descAlignY=62&descAlign=50" width="100%" alt="Header Banner"/>
 
-Server Minecraft Java Edition berbasis **Fabric 1.21.11** yang mendukung **Crossplay Bedrock Edition** (Android, iOS, Windows 10/11, Konsol) secara instan menggunakan arsitektur modern terisolasi **ViaProxy** dan **Geyser-ViaProxy**.
+# Minecraft Fabric 1.21.11 Server + Bedrock Crossplay Bridge
 
-Dilengkapi mod optimasi performa tinggi (**Lithium, FerriteCore, Krypton**), struktur RPG megah (**Towns & Towers, Dungeons & Taverns**), fitur quality-of-life lengkap (**Vanilla Graves, Vein Mining, Tree Harvester, Fullbright**), perintah esensial (`/home`, `/tpa`, `/back`, `/spawn`), serta dukungan **Dual-Wielding / Offhand bebas untuk pemain Bedrock HP** (`/offhand` & gerakan emote).
+[![Minecraft Version](https://img.shields.io/badge/Minecraft-1.21.11-2ea44f?style=for-the-badge&logo=minecraft&logoColor=white)](https://www.minecraft.net/)
+[![Fabric Loader](https://img.shields.io/badge/Fabric-0.19.5-dbaf7b?style=for-the-badge&logo=fabric&logoColor=white)](https://fabricmc.net/)
+[![Java Runtime](https://img.shields.io/badge/Java-21%20LTS-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://adoptium.net/)
+[![GeyserMC](https://img.shields.io/badge/Bedrock%20Crossplay-GeyserMC%202.11.2-2ecc71?style=for-the-badge&logo=geysermc&logoColor=white)](https://geysermc.org/)
+[![Status](https://img.shields.io/badge/Performance-Optimized%20Aikar%27s%20Flags-00ffcc?style=for-the-badge)](https://github.com/fendyramadhani9-cloud/minecraft-server-)
 
-> 💡 **Panduan Lengkap Perintah Konsol & Kontrol**: Lihat [KENDALI_SERVER.md](file:///D:/games/Server/KENDALI_SERVER.md).
+<p align="center">
+  <b>Server Minecraft Java Edition berbasis Fabric 1.21.11 yang mendukung koneksi lintas platform (Crossplay) Bedrock Edition (Android, iOS, Windows 10/11, Konsol) secara native, ringan, dan stabil.</b>
+</p>
+
+</div>
 
 ---
 
-## ⚡ Cara Pasang & Menjalankan (Quickstart Guide)
+## Ringkasan Fitur & Keunggulan
+
+* **Arsitektur Terisolasi Modern**: Backend Java 1.21.11 berjalan murni dan bersih; komponen penerjemah protokol Bedrock ditangani oleh ViaProxy dan Geyser-ViaProxy di proses terpisah.
+* **Performa Tinggi & Anti-Lag**:
+  * Menggunakan mod optimasi inti: **Lithium** (tick physics & AI), **FerriteCore** (efisiensi RAM 30–40%), dan **Krypton** (optimasi stack jaringan).
+  * Dilengkapi **Aikar's Garbage Collector Flags** untuk mencegah lag spike dan membatasi konsumsi CPU tetap sejuk (2 core).
+  * Penyetelan MTU 1280 dan penonaktifan pembatasan paket agresif RakNet untuk kelancaran koneksi di jaringan seluler maupun Wi-Fi.
+* **Eksplorasi Dunia & Struktur RPG**:
+  * **Towns & Towers**: Menghadirkan desa dan benteng kerajaan yang bervariasi di seluruh bioma.
+  * **Dungeons & Taverns**: Menara pengawas, kastil bawah tanah, dan struktur petualangan baru.
+* **Fitur Quality-of-Life (QoL)**:
+  * **Vanilla Graves**: Barang dan EXP tersimpan aman di dalam peti saat mati (bebas hilang atau terbakar lava).
+  * **Vein Mining & Tree Harvester**: Menambang urat bijih dan menebang satu pohon utuh dalam satu ayunan alat.
+  * **Fullbright**: Fitur pencahayaan malam melalui perintah `/trigger ToggleFullBright`.
+  * **Essential Commands**: Sistem Base (`/home`), Teleportasi Mabar (`/tpa`), Titik Mati (`/back`), dan Titik Kumpul (`/spawn`).
+* **Dukungan Penuh Pemain Bedrock HP**:
+  * Mendukung **Dual-Wielding Bebas** (menaruh obor, makanan, atau blok apa saja di tangan kiri) melalui perintah `/offhand` atau langsung via gerakan emote di layar HP.
+  * Autentikasi Floodgate: Pemain Bedrock masuk menggunakan akun Microsoft/Xbox gratis tanpa kewajiban membeli Java Edition.
+
+> [!NOTE]
+> Panduan lengkap perintah konsol dan kendali server dapat dibaca pada [KENDALI_SERVER.md](file:///D:/games/Server/KENDALI_SERVER.md).
+
+---
+
+## Panduan Pemasangan & Menjalankan (Quickstart Guide)
 
 ### 1. Kebutuhan Sistem
-* **Sistem Operasi**: Windows 10 / 11 (64-bit)
-* **Java**: **Java 21 (JDK / JRE 64-bit)**.
-  * Jika belum memiliki Java 21, unduh dan install dari [Eclipse Adoptium Temurin 21 (LTS)](https://adoptium.net/temurin/releases/?version=21) atau letakkan portable JRE 21 di folder `runtime/`.
-* **RAM**: Minimal 4 GB RAM pada komputer host (Server dialokasikan 3 GB).
+* **Sistem Operasi**: Windows 10 / 11 (64-bit).
+* **Java Runtime**: **Java 21 (JDK / JRE 64-bit)**.
+  * Unduh resmi: [Eclipse Adoptium Temurin 21 (LTS)](https://adoptium.net/temurin/releases/?version=21).
+  * Atau gunakan portable runtime di dalam folder `runtime/`.
+* **Memori (RAM)**: Komputer host disarankan memiliki minimal 4 GB RAM (Server dialokasikan 3 GB).
 
-### 2. Cara Download / Clone Repository
-Buka terminal / Git Bash di komputer Anda, lalu jalankan:
+### 2. Unduh / Clone Repository
+Buka terminal (PowerShell / Command Prompt / Git Bash), lalu jalankan:
 ```bash
 git clone https://github.com/fendyramadhani9-cloud/minecraft-server-.git
 cd minecraft-server-
 ```
 
-### 3. Cara Menjalankan Server
-Cukup klik dua kali (double-click) atau jalankan script:
+### 3. Menjalankan Server (1-Klik)
+Jalankan script batch utama:
 ```cmd
 scripts\start-server.bat
 ```
-* Script otomatis mendeteksi Java 21 pada komputer Anda.
-* Script akan menyalakan **Bridge Bedrock (ViaProxy + Geyser)** di port UDP **19132**.
-* Script akan menyalakan **Backend Minecraft Fabric 1.21.11** di port TCP **25565**.
-* Tunggu sampai muncul tulisan `[INFO] Done! For help, type "help"` di jendela server.
+Atau klik dua kali pada file `scripts\start-server.bat` di File Explorer.
 
-### 4. Cara Masuk ke Server (Join Game)
-* **Pemain Java Edition (Komputer / Laptop):**
-  * Versi: Minecraft Java 1.21.11 (Resmi maupun Offline/Cracked Launcher).
-  * Masuk via: `localhost:25565` (jika main di PC host) atau IP lokal WiFi `192.168.x.x:25565`.
-* **Pemain Bedrock Edition (HP Android / iPhone / Windows 10/11 / Konsol):**
-  * Versi: Bedrock terbaru.
-  * Server IP: IP komputer host (misal `192.168.1.2` jika 1 WiFi) atau alamat Public Tunnel Playit.
-  * Port: `19132` (atau port Playit publik).
-  * Login akun Microsoft/Xbox gratis (tanpa perlu beli Java Edition).
+Script otomatis melakukan:
+1. Mendeteksi lokasi instalasi Java 21.
+2. Menjalankan **Bedrock Bridge (ViaProxy + Geyser)** pada port **19132 UDP**.
+3. Menjalankan **Server Utama Fabric 1.21.11** pada port **25565 TCP** dengan alokasi RAM optimal.
+4. Server siap dimainkan setelah muncul teks `[INFO] Done! For help, type "help"`.
 
----
+### 4. Cara Bergabung ke Server (Join Game)
 
-## 📋 Tabel Perintah Server (Member & Admin)
+#### A. Pemain Java Edition (PC / Laptop)
+* **Versi Client**: Minecraft Java Edition 1.21.11 (Akun Resmi atau Launcher Offline).
+* **Server Address**:
+  * Komputer yang sama (Localhost): `localhost:25565` atau `127.0.0.1:25565`
+  * Satu jaringan Wi-Fi (LAN): `192.168.x.x:25565`
+  * Jarak Jauh (Internet Publik): `schmidt-affairs.tun.ply.gg` *(Direct Connect tanpa port)*
 
-Panduan lengkap kendali server dan daftar perintah terperinci dapat dilihat di [KENDALI_SERVER.md](file:///D:/games/Server/KENDALI_SERVER.md).
-
-> ⚠️ **PENTING: Jangan Salah Ketik Perintah Rumah/Base!**
-> Mod Fabric modern menggunakan kata **`home` di depan** (bukan `/sethome` seperti plugin lama):
-> * ❌ **SALAH (Command tidak dikenal):** `/sethome`, `/set home`, `/gotohome`, `/delhome`, `/setspawn`
-> * ✅ **BENAR (Resmi):** `/home set base`, `/home base`, `/home list`, `/home delete base`, `/spawn set`
-
-### A. Perintah Member (Semua Pemain Java & Bedrock / Tanpa OP)
-| Kategori | Perintah di Chat | Fungsi / Kegunaan | Contoh Penggunaan |
-| :--- | :--- | :--- | :--- |
-| **Tandai Base** | `/home set [nama]` | Menandai lokasi berdiri saat ini sebagai Base. | `/home set base` *(atau `/home set rumah`)* |
-| **Pulang Base** | `/home [nama]` | Teleportasi instan kembali ke Base yang ditandai. | `/home base` |
-| **Daftar Base** | `/home list` | Melihat daftar nama semua Base yang Anda miliki. | `/home list` |
-| **Hapus Base** | `/home delete [nama]` | Menghapus titik Base yang sudah tidak terpakai. | `/home delete tambang` |
-| **Kembali Kematian** | `/back` | Teleportasi instan ke titik mati untuk ambil barang. | `/back` |
-| **Titik Mati** | *(Otomatis)* | Koordinat mati otomatis tercetak di layar & chat. | *(Otomatis saat mati)* |
-| **Mabar Teleport** | `/tpa <nama_teman>` | Mengirim permintaan teleportasi ke teman. | `/tpa ChoppyMite4355` |
-| | `/tpaccept` | Menerima ajakan teleport dari teman. | `/tpaccept` |
-| | `/tpdeny` | Menolak ajakan teleport dari teman. | `/tpdeny` |
-| **Titik Spawn** | `/spawn` | Teleportasi kembali ke titik Spawn utama server. | `/spawn` |
-| **Tangan Kiri HP** | `/offhand` *(atau `/switchhand`)* | Menukar barang tangan kanan ke tangan kiri (Offhand) di Bedrock HP. | `/offhand` |
-| **Malam Terang** | `/trigger ToggleFullBright` | Menyalakan/mematikan malam terang (FullBright). | `/trigger ToggleFullBright` |
-| **Pesan & List** | `/msg <nama> <pesan>` | Mengirim bisikan pribadi ke teman. | `/msg ChoppyMite4355 sini ada diamond` |
-| | `/list` | Melihat siapa saja pemain yang sedang online. | `/list` |
-
-> 🎮 **Fitur Pasif & Kontrol Otomatis Member:**
-> * **Dual-Wielding Bedrock (Tangan Kiri HP):** Ada 2 cara praktis menaruh obor/makanan/blok di tangan kiri:
->   1. **Ketik `/offhand` di chat** (Paling mudah & instan!).
->   2. **Mainkan Emote** di layar HP (pilih gerakan emote di menu emote).
-> * **Vanilla Graves:** Saat mati, semua barang dan armor masuk ke Peti (Chest) terlindungi. Tidak hilang dan tidak terbakar lava. Tinggal ketik `/back` untuk ambil kembali.
-> * **Vein Mining:** Tambang 1 blok bijih (Diamond, Iron, Gold, dll) dengan Pickaxe, seluruh urat bijih hancur bersamaan.
-> * **Tree Harvester:** Tebang 1 kayu paling bawah dengan Kapak, seluruh pohon roboh seketika.
+#### B. Pemain Bedrock Edition (Android, iOS, Windows 10/11, Konsol)
+* **Versi Client**: Minecraft Bedrock versi terbaru (26.0–26.45).
+* **Server Name**: Bebas (misal: `Server Mabar`)
+* **Server Address & Port**:
+  * Satu jaringan Wi-Fi (Lokal): IP komputer host (contoh: `192.168.1.2`), Port: `19132`
+  * Jarak Jauh (Internet Publik): `schmidt-challenge.tun.ply.gg`, Port: `61426`
+* **Autentikasi**: Masuk menggunakan akun Microsoft / Xbox masing-masing secara gratis.
 
 ---
 
-### B. Perintah Admin (Khusus Pemilik Server / OP)
-| Kategori | Perintah di Chat Game | Fungsi / Kegunaan | Contoh |
+## Daftar Perintah Lengkap (Member & Admin)
+
+> [!IMPORTANT]
+> **Format Perintah Base / Rumah:**
+> Mod Fabric modern menggunakan sintaks kata **`home` di depan**:
+> * **SALAH:** `/sethome`, `/set home`, `/gotohome`, `/delhome`
+> * **BENAR:** `/home set base`, `/home base`, `/home list`, `/home delete base`, `/spawn set`
+
+### 1. Perintah Member (Semua Pemain / Tanpa OP)
+
+| Kategori | Perintah di Chat | Kegunaan | Contoh |
 | :--- | :--- | :--- | :--- |
-| **Cari Struktur RPG** | `/locate structure towns_and_towers:village_classic` | Mencari koordinat desa kerajaan Towns & Towers terdekat. | `/locate structure towns_and_towers:village_classic` |
-| | `/locate structure nova_structures:firewatch_tower_forest` | Mencari menara/kastil Dungeons & Taverns terdekat. | `/locate structure nova_structures:firewatch_tower_forest` |
+| **Base Pribadi** | `/home set [nama]` | Menandai lokasi berdiri saat ini sebagai Base. | `/home set base` |
+| | `/home [nama]` | Teleportasi instan kembali ke Base. | `/home base` |
+| | `/home list` | Menampilkan daftar seluruh Base yang dimiliki. | `/home list` |
+| | `/home delete [nama]` | Menghapus titik Base yang sudah tidak digunakan. | `/home delete base` |
+| **Kembali Kematian** | `/back` | Teleportasi instan ke titik mati terakhir. | `/back` |
+| | *(Otomatis)* | Koordinat kematian tercetak otomatis di layar & chat. | *(Otomatis saat mati)* |
+| **Teleportasi Mabar** | `/tpa <nama>` | Mengajukan permintaan teleportasi ke teman. | `/tpa ChoppyMite4355` |
+| | `/tpaccept` | Menerima permintaan teleportasi dari teman. | `/tpaccept` |
+| | `/tpdeny` | Menolak permintaan teleportasi dari teman. | `/tpdeny` |
+| **Titik Kumpul** | `/spawn` | Teleportasi kembali ke titik Spawn utama server. | `/spawn` |
+| **Tangan Kiri Bedrock** | `/offhand` | Menukar barang tangan kanan ke tangan kiri di Bedrock HP. | `/offhand` |
+| **Pencahayaan** | `/trigger ToggleFullBright` | Menyalakan / mematikan fitur malam terang (FullBright). | `/trigger ToggleFullBright` |
+| **Komunikasi** | `/msg <nama> <pesan>` | Mengirim pesan bisikan rahasia ke teman. | `/msg ChoppyMite4355 sini` |
+| | `/list` | Melihat daftar siapa saja pemain yang sedang online. | `/list` |
+
+> [!TIP]
+> **Dua Cara Menggunakan Offhand di HP Bedrock:**
+> 1. **Ketik `/offhand` di chat** (Instan dan langsung memindahkan barang yang dipegang).
+> 2. **Gunakan Emote** pada tombol emote di layar HP untuk menukar barang secara otomatis.
+
+---
+
+### 2. Perintah Admin (Khusus OP / Pemilik Server)
+
+| Kategori | Perintah di Chat Game | Kegunaan | Contoh |
+| :--- | :--- | :--- | :--- |
+| **Pencarian Struktur RPG** | `/locate structure towns_and_towers:village_classic` | Mencari desa kerajaan Towns & Towers terdekat. | `/locate structure towns_and_towers:village_classic` |
+| | `/locate structure nova_structures:firewatch_tower_forest` | Mencari menara pengawas Dungeons & Taverns. | `/locate structure nova_structures:firewatch_tower_forest` |
 | | `/locate structure #minecraft:village` | Mencari desa apa saja (vanilla maupun mod) terdekat. | `/locate structure #minecraft:village` |
-| **Atur Titik Spawn** | `/spawn set` | Menjadikan lokasi berdiri saat ini sebagai spawn server. | `/spawn set` |
-| **Warp Publik** | `/warp set <nama>` | Membuat titik warp publik untuk semua pemain. | `/warp set pasar` |
-| | `/warp <nama>` | Teleport ke titik warp bersama. | `/warp pasar` |
+| **Titik Spawn Server** | `/spawn set` | Menjadikan koordinat saat ini sebagai titik spawn server. | `/spawn set` |
+| **Warp Bersama** | `/warp set <nama>` | Membuat lokasi warp publik untuk semua member. | `/warp set pasar` |
+| | `/warp <nama>` | Teleportasi langsung ke titik warp publik. | `/warp pasar` |
 | | `/warp delete <nama>` | Menghapus titik warp bersama. | `/warp delete pasar` |
-| **Mode Game** | `/gamemode <survival\|creative\|spectator>` | Mengubah mode permainan pemain. | `/gamemode creative fendy` |
-| **Teleport Admin** | `/tp <pemain>` / `/tp @a @s` | Teleportasi instan ke pemain atau panggil semua. | `/tp ChoppyMite4355` |
-| **Waktu & Cuaca** | `/time set day` / `night` | Mengubah waktu menjadi pagi atau malam. | `/time set day` |
-| | `/weather clear` | Menghilangkan hujan dan badai. | `/weather clear` |
-| **Aturan Dunia** | `/gamerule keepInventory true` | Barang dan exp tidak hilang saat mati. | `/gamerule keepInventory true` |
-| **Konsol CMD** | `op <nama>` / `deop <nama>` | Mengangkat / mencabut admin (di jendela CMD). | `op fendy` |
+| **Mode Permainan** | `/gamemode <survival\|creative\|spectator>` | Mengubah mode permainan pemain. | `/gamemode creative fendy` |
+| **Teleportasi Instan** | `/tp <pemain>` / `/tp @a @s` | Menarik atau mengunjungi pemain secara instan. | `/tp ChoppyMite4355` |
+| **Waktu & Cuaca** | `/time set day` / `night` | Mengatur waktu dunia game. | `/time set day` |
+| | `/weather clear` | Membersihkan hujan dan badai petir. | `/weather clear` |
+| **Aturan Dunia** | `/gamerule keepInventory true` | Mengatur agar barang tidak hilang saat mati. | `/gamerule keepInventory true` |
+| **Hak Akses Console** | `op <nama>` / `deop <nama>` | Memberi atau mencabut hak admin di jendela CMD. | `op fendy` |
 
 ---
 
-## 1. Spesifikasi Server
-
-* **Minecraft Java Edition**: 1.21.11 (Vanilla release terakhir seri 1.x)
-* **Server Platform / Mod Loader**: Fabric Loader
-* **Gameplay Mode**: Survival Vanilla
-* **Kesulitan (Difficulty)**: Normal
-* **Autentikasi Java**: Offline / Cracked (`online-mode=false`)
-* **Autentikasi Bedrock**: Floodgate (`auth-type: floodgate`, login via akun Microsoft/Xbox tanpa perlu membeli Java Edition)
-* **Alokasi RAM**: 3 GB Minimum (`-Xms3G`), 3 GB Maksimum (`-Xmx3G`)
-* **Alokasi CPU**: 2 Logical Processors (`-XX:ActiveProcessorCount=2`)
-* **Server GUI**: Headless (`nogui`)
-* **Host OS**: Windows 11 / Windows Laptop
-* **Network Mode**: Local LAN / Loopback testing (tidak diexpose ke internet publik)
-
----
-
-## 2. Struktur Folder
+## Struktur Direktori Proyek
 
 ```
 D:\games\Server\
-├── runtime\                     # Portable OpenJDK 21 Temurin Runtime
-│   ├── bin\
-│   │   ├── java.exe
-│   │   └── ...
-│   └── ...
-├── server\                      # Direktori Server Utama Fabric 1.21.11 (Terisolasi)
-│   ├── fabric-server-launch.jar # Fabric Server Launcher resmi
-│   ├── server.jar               # Minecraft Vanilla 1.21.11 server jar
-│   ├── server.properties        # Konfigurasi server (port 25565, offline-mode, survival)
-│   ├── eula.txt                 # EULA Mojang (eula=true)
-│   ├── world\                   # World data survival (dibuat otomatis)
-│   ├── mods\                    # Mod optimasi server-side
-│   │   ├── fabric-api-0.141.6+1.21.11.jar
-│   │   ├── lithium-fabric-0.21.4+mc1.21.11.jar
-│   │   └── ferritecore-8.2.0-fabric.jar
-│   └── libraries\               # Library runtime Minecraft & Fabric
-├── bridge\                      # Direktori Bridge Crossplay (Terisolasi)
-│   ├── ViaProxy-3.4.12.jar      # Standalone multi-version proxy by ViaVersion
-│   ├── viaproxy.yml             # Konfigurasi ViaProxy (Target: 127.0.0.1:25565)
-│   └── plugins\
-│       ├── Geyser-ViaProxy.jar  # Plugin Geyser untuk ViaProxy
-│       └── Geyser\
-│           └── config.yml       # Konfigurasi Geyser (Bedrock UDP 19132, auth: floodgate)
-├── scripts\                     # Script otomasi Windows
+├── .gitignore                   # Proteksi data pribadi, world, dan token tunnel
+├── README.md                    # Dokumentasi utama proyek
+├── KENDALI_SERVER.md            # Dokumentasi panduan operasional server
+├── scripts\                     # Script otomasi pengelolaan server
 │   ├── start-server.bat         # Start terkoordinasi (Server + Bridge)
-│   ├── stop-server.bat          # Menghentikan server & bridge
-│   ├── start-backend.bat        # Start backend Java server saja
-│   └── start-bridge.bat         # Start bridge saja
-├── backups\                     # Direktori penyimpanan cadangan world
-└── README.md                    # Dokumentasi ini
+│   ├── stop-server.bat          # Menghentikan seluruh proses server
+│   ├── start-backend.bat        # Start server Fabric saja
+│   ├── start-bridge.bat         # Start bridge Bedrock saja
+│   ├── check-status.bat         # Cek status port dan proses aktif
+│   ├── export-world.bat         # Cadangkan / export data dunia
+│   └── import-world.bat         # Pulihkan / import data dunia
+├── server\                      # Direktori Server Utama Fabric 1.21.11
+│   ├── fabric-server-launch.jar # Bootstrapper Fabric Server
+│   ├── server.properties        # Konfigurasi parameter server
+│   ├── eula.txt                 # Persetujuan EULA Mojang
+│   ├── config\                  # Konfigurasi mod (EssentialCommands, Lithium, dll)
+│   └── mods\                    # Mod server-side terpasang
+└── bridge\                      # Direktori Bridge Crossplay Terisolasi
+    ├── ViaProxy-3.4.12.jar      # Proxy multi-version translator
+    ├── viaproxy.yml             # Konfigurasi ViaProxy (Target: 127.0.0.1:25565)
+    └── plugins\
+        ├── Geyser-ViaProxy.jar  # Plugin Geyser untuk Bedrock UDP 19132
+        └── Geyser\
+            ├── config.yml       # Konfigurasi Geyser (Floodgate, MTU, dsb)
+            └── extensions\
+                └── EmoteOffhand.jar # Ekstensi Dual-Wielding Bedrock
 ```
 
 ---
 
-## 3. Versi Setiap Komponen
+## Spesifikasi Teknis Server
 
-Semua dependensi diverifikasi dari sumber dan API resmi:
-
-| Komponen | Versi | Sumber Resmi | Keterangan |
-| :--- | :--- | :--- | :--- |
-| **Java Runtime** | OpenJDK 21.0.12.1+1 LTS | Eclipse Adoptium Temurin | Portable JRE 21, 64-bit |
-| **Minecraft Server** | 1.21.11 | Mojang Studios | Versi target backend |
-| **Fabric Loader** | 0.19.5 | FabricMC Meta API | Loader stabil untuk 1.21.11 |
-| **Fabric Installer** | 1.1.2 | FabricMC Maven | Komponen bootstrapper |
-| **Fabric API** | 0.141.6+1.21.11 | Modrinth (FabricMC) | Library API Fabric untuk 1.21.11 |
-| **Lithium** | 0.21.4+mc1.21.11 | Modrinth (CaffeineMC) | Optimasi fisika, chunk, & AI entity |
-| **FerriteCore** | 8.2.0-fabric | Modrinth (malte0811) | Optimasi alokasi RAM & memory data |
-| **ViaProxy** | 3.4.12 | GitHub ViaVersion | Standalone protocol translation proxy |
-| **Geyser** | 2.11.2 (Build 1235) | GeyserMC Downloads API | Mendukung Bedrock 26.0–26.45 |
-| **Floodgate** | Terintegrasi di Geyser | GeyserMC | Mode autentikasi Microsoft/Xbox |
+| Komponen | Spesifikasi | Keterangan |
+| :--- | :--- | :--- |
+| **Minecraft Java Backend** | Versi 1.21.11 | Rilis resmi terakhir lini 1.21.x |
+| **Mod Loader** | Fabric Loader 0.19.5 | Menggunakan Fabric API 0.141.6 |
+| **Java Virtual Machine** | OpenJDK 21 LTS (64-bit) | Dijalankan dengan Aikar's Garbage Collection Flags |
+| **Alokasi Memori Heap** | `-Xms3G -Xmx3G` | Heap tetap 3 GB untuk mencegah jeda alokasi RAM |
+| **Pembatasan Prosesor** | `-XX:ActiveProcessorCount=2` | Menjaga CPU tetap dingin dan hemat daya |
+| **Crossplay Engine** | ViaProxy 3.4.12 + Geyser 2.11.2 | Mendukung protokol Bedrock 26.0–26.45 |
+| **Mode Autentikasi** | Hybrid (`offline-mode` + Floodgate) | Java Offline/Cracked & Bedrock Xbox resmi |
 
 ---
 
-## 4. Cara Menjalankan Server (Start)
+## Panduan Troubleshooting
 
-Cukup jalankan script batch utama:
-
-```cmd
-scripts\start-server.bat
-```
-
-Atau double-click `scripts\start-server.bat` dari File Explorer Windows.
-
-### Apa yang dilakukan script ini?
-1. Otomatis mendeteksi Java 21 dari `runtime\bin\java.exe` (atau sistem `JAVA_HOME` jika ada).
-2. Menjalankan **Bedrock Bridge (ViaProxy + Geyser)** di jendela terpisah yang diminimalkan.
-3. Menjalankan **Minecraft Fabric 1.21.11 Server** pada jendela utama dengan parameter:
-   `-Xms3G -Xmx3G -XX:ActiveProcessorCount=2 nogui`
-4. Menunggu hingga console server menampilkan `Done!`.
-
-> **Catatan Troubleshooting Terisolasi:**
-> - Jika hanya ingin menjalankan backend Java server tanpa bridge: jalankan `scripts\start-backend.bat`.
-> - Jika hanya ingin menguji bridge: jalankan `scripts\start-bridge.bat`.
-
----
-
-## 5. Cara Menghentikan Server (Stop)
-
-1. **Cara Utama (Sangat Direkomendasikan)**:
-   Pada jendela console server utama yang sedang berjalan, ketik:
-   ```text
-   stop
-   ```
-   Lalu tekan `Enter`.
-   Server akan menyimpan seluruh chunk dunia (`world`), menyimpan data pemain, menutup port TCP 25565, dan secara otomatis menutup proses bridge.
-
-2. **Cara Darurat**:
-   Jalankan script:
-   ```cmd
-   scripts\stop-server.bat
-   ```
-
----
-
-## 6. Panduan Koneksi Java Edition
-
-### A. Main di Komputer/Laptop yang Sama (Lokal):
-* **Versi Client**: Minecraft Java Edition 1.21.11
-* **Server Address**: `localhost:25565` atau `127.0.0.1:25565`
-
-### B. Main Jarak Jauh / Internet (Teman di Luar Rumah):
-* **Versi Client**: Minecraft Java Edition 1.21.11
-* **Server Address**:
-  ```text
-  schmidt-affairs.tun.ply.gg
-  ```
-  *(Tanpa perlu port tambahan, teman tinggal ketik domain ini di Direct Connect/Add Server)*
-* **Akun**: Akun resmi (Microsoft) maupun Offline/Cracked Launcher dapat bergabung langsung.
-
----
-
-## 7. Panduan Koneksi Bedrock Edition
-
-### A. Main di Komputer/Laptop yang Sama atau Satu Wi-Fi:
-* **Server Address**: `127.0.0.1` (atau IP LAN `192.168.1.2`)
-* **Port**: `19132`
-
-### B. Main Jarak Jauh / Internet (Teman di Luar Rumah):
-* **Versi Client**: Bedrock terbaru (Android, iOS, Windows 10/11, Konsol)
-* **Server Name**: Bebas diisi (misal `Server Mabar`)
-* **Server Address**:
-  ```text
-  schmidt-challenge.tun.ply.gg
-  ```
-* **Port**:
-  ```text
-  61426
-  ```
-* **Autentikasi**: Pemain Bedrock masuk menggunakan akun Microsoft/Xbox mereka secara gratis. **Tidak memerlukan pembelian Minecraft Java Edition**.
-
----
-
-## 8. Alokasi RAM (Memory Allocation)
-
-JVM dikonfigurasi dengan alokasi heap yang presisi dan stabil:
-* **Minimum Heap (`-Xms3G`)**: 3 GB dialokasikan sejak server pertama kali boot untuk mencegah jeda garbage collection akibat resize heap berkala.
-* **Maksimum Heap (`-Xmx3G`)**: 3 GB batas maksimal memori JVM.
-* Didukung oleh mod **FerriteCore** yang mengurangi penggunaan heap memori untuk data blockstate dan model hingga 30-40%.
-
----
-
-## 9. Alokasi CPU (Processor Count)
-
-JVM dibatasi untuk hanya menggunakan 2 logical processor cores:
-* **Flag JVM**: `-XX:ActiveProcessorCount=2`
-* **Tujuan**: Mencegah proses server membebani seluruh CPU laptop, menjaga temperatur dan konsumsi daya tetap stabil selama bermain bersamaan dengan game client.
-* Mod **Lithium** mengoptimalkan algoritma kalkulasi tick, chunk loading, dan mob AI agar berjalan sangat efisien di dalam batasan 2 threads ini.
-
----
-
-## 10. Troubleshooting
-
-### 1. Port 25565 atau 19132 sudah digunakan (Address already in use)
-Jika port bertabrakan dengan proses server lain yang belum tertutup:
-1. Buka PowerShell dan cari PID proses yang menggunakan port:
+### 1. Port 25565 atau 19132 Sudah Digunakan (Address Already in Use)
+Jika proses sebelumnya belum tertutup sempurna:
+1. Buka PowerShell dan periksa PID:
    ```powershell
    Get-NetTCPConnection -LocalPort 25565 -ErrorAction SilentlyContinue
    Get-NetUDPEndpoint -LocalPort 19132 -ErrorAction SilentlyContinue
    ```
-2. Tutup proses menggunakan PID tersebut:
+2. Hentikan proses terkait:
    ```powershell
    Stop-Process -Id <PID> -Force
    ```
+   Atau cukup jalankan script `scripts\stop-server.bat`.
 
-### 2. Pemain Bedrock tidak bisa connect ke UDP 19132
-* Pastikan Windows Defender Firewall tidak memblokir koneksi lokal untuk Java atau UDP.
-* Pastikan bridge sedang berjalan (cek apakah jendela `Minecraft Bridge` ada di taskbar).
-
-### 3. Server tiba-tiba lambat (lag / tick drop)
-* Kurangi `view-distance` di `server/server.properties` dari 10 menjadi 8 atau 6.
-* Kurangi `simulation-distance` dari 10 menjadi 6 atau 4.
-
-### 4. Kenapa Pemain Terputus Saat AFK / Layar HP Terkunci?
-* **Penyebab (Sisi HP Android / iOS)**:
-  * Di server utama, waktu timeout sudah diatur ke `0` (`player-idle-timeout=0`), artinya **server tidak pernah menendang pemain yang diam**.
-  * Namun pada HP Android dan iPhone, ketika layar mati (screen lock) atau pemain beralih ke aplikasi lain (minimize), sistem operasi HP secara otomatis **mematikan koneksi background WiFi / data dan men-suspend aplikasi Minecraft** untuk menghemat baterai.
-  * Karena Bedrock menggunakan UDP RakNet, ketika HP berhenti mengirim paket heartbeat/keepalive selama ~30 detik, bridge Geyser mendeteksi `Bedrock client timed out` lalu memutuskan koneksi.
+### 2. Kenapa Pemain Terputus Saat Diam / Layar HP Mati (AFK Disconnect)?
+* **Penyebab**:
+  * Server utama tidak pernah menendang pemain yang diam (`player-idle-timeout=0`).
+  * Pada perangkat Android dan iOS, saat layar mati atau aplikasi di-minimize, sistem operasi HP secara otomatis **mematikan transmisi Wi-Fi di latar belakang dan men-suspend proses Minecraft** untuk menghemat baterai.
+  * Akibatnya, HP berhenti merespons sinyal detak jantung (*keepalive*) selama 30 detik, sehingga Geyser menganggap HP telah keluar dari permainan (`Bedrock client timed out`).
 * **Solusi**:
-  * Matikan fitur *Battery Optimization / Hemat Daya* khusus untuk aplikasi Minecraft di pengaturan HP.
-  * Atur waktu mati layar HP (Screen Timeout) menjadi lebih lama atau *Never* saat ingin AFK di farm/base.
-  * Tetap biarkan aplikasi Minecraft berada di layar aktif (tidak di-minimize).
+  * Atur waktu mati layar HP (*Screen Timeout*) menjadi lebih lama atau *Never* saat ingin AFK di dekat farm/base.
+  * Nonaktifkan fitur *Battery Optimization / Hemat Daya* untuk aplikasi Minecraft pada pengaturan HP.
+  * Pertahankan aplikasi Minecraft tetap berada di layar aktif (tidak di-minimize).
+
+### 3. Pemain Bedrock Mengalami Lag atau Gerakan Ditarik (Rubberbanding)
+* Pastikan Geyser dijalankan dengan script resmi `scripts\start-server.bat` atau `scripts\start-bridge.bat` yang sudah memuat argumen optimasi:
+  `-DGeyser.RakRateLimitingDisabled=true -DGeyser.RakPacketLimit=100000`
+* Pengaturan `mtu: 1280` di `bridge\plugins\Geyser\config.yml` sudah aktif untuk mencegah fragmentasi paket di jaringan Wi-Fi dan seluler.
 
 ---
 
-## 11. Catatan Keamanan Penting (`online-mode=false`)
+## Catatan Keamanan
 
-Server ini dikonfigurasi dengan:
-```properties
-online-mode=false
-enforce-secure-profile=false
-```
-
-### Implikasi Keamanan:
-1. **Pemalsuan Identitas / Nickname**:
-   Dalam mode `online-mode=false`, server tidak memvalidasi session token pemain ke Mojang authentication server. Siapapun yang mengetahui nickname seorang pemain (termasuk nickname OP / admin) dapat masuk menggunakan cracked launcher dengan nickname tersebut dan memperoleh privilege pemilik akun.
-2. **UUID Pemain Tidak Terikat Akun Mojang**:
-   UUID dihitung secara offline berdasarkan hash nama. Jika nickname diubah, inventory dan status pemain akan reset.
-3. **Peringatan Jaringan Publik**:
-   **JANGAN PERNAH** mem-forward port 25565 ke internet publik (via router port forwarding atau tunnel publik seperti Playit/ngrok) tanpa proteksi tambahan!
-4. **Rekomendasi Proteksi Jika Dibuka ke Teman**:
-   - Aktifkan whitelist:
-     Ketik `/whitelist on` di console, lalu daftarkan nickname pemain dengan `/whitelist add <nama_pemain>`.
-   - Atau pasang mod login/password autentikasi (seperti SimpleLogin / AuthMe equivalent untuk Fabric) jika server ingin dimainkan secara offline oleh beberapa orang.
+Server ini menggunakan pengaturan `online-mode=false` untuk fleksibilitas launcher Java:
+1. **Verifikasi Identitas**: Dalam mode offline, server tidak memverifikasi token ke server Mojang. Siapapun dapat menggunakan nama apa saja.
+2. **Perlindungan Akses Admin**: Jangan berikan hak OP kepada pemain sembarangan. Gunakan whitelist jika membuka server ke publik luas:
+   ```cmd
+   whitelist on
+   whitelist add <nama_pemain>
+   ```
+3. **Kerahasiaan Kunci Tunnel**: File `playit.toml` berisi token autentikasi rahasia dan telah dilindungi oleh `.gitignore` agar tidak pernah terunggah ke publik.
 
 ---
 
-## 12. Analisis Kompatibilitas Dependensi
-
-Arsitektur server ini dibangun mengikuti prinsip kehati-hatian kompatibilitas:
-
-1. **Backend Fabric 1.21.11**:
-   Menggunakan Fabric Loader 0.19.5 dan Fabric API 0.141.6 khusus 1.21.11. Optimasi Lithium dan FerriteCore dipilih pada versi rilis stabil yang secara eksplisit mendukung 1.21.11.
-2. **Kebutuhan Bridge Terisolasi**:
-   Geyser rilis terbaru (2.11.2) mengemulasi protokol Java modern (26.x) agar dapat menerima Bedrock client terkini (26.0–26.45). Jika Geyser dihubungkan langsung ke backend Java 1.21.11, koneksi akan ditolak karena perbedaan protokol packet.
-3. **Peran ViaProxy**:
-   ViaProxy bertindak sebagai penerjemah protokol bidirectional antara Geyser (protokol 26.x) dan backend Fabric (protokol 1.21.11), sehingga Bedrock versi terbaru dapat bermain di dunia Fabric 1.21.11 secara stabil tanpa lag atau mod gameplay tambahan.
+<div align="center">
+  <sub>Dikembangkan dan dioptimalkan secara khusus untuk kestabilan server lokal & internet crossplay.</sub>
+</div>

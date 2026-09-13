@@ -1,0 +1,51 @@
+# ====================================================================
+# .gitignore for Minecraft Fabric 1.21.11 + Bedrock Crossplay Server
+# ====================================================================
+
+# Runtime Java & Binaries (Install Java 21 separately or download portable JRE)
+runtime/
+*.exe
+*.dll
+
+# World Data & Backups (Prevent uploading personal game progress & huge region files)
+server/world/
+server/world_nether/
+server/world_the_end/
+backups/
+
+# Fabric Server Generated Cache & Vanilla Jar
+server/.fabric/
+server/libraries/
+server/.cache/
+**/cache/
+**/blob_cache/
+
+# Logs & Crash Reports
+logs/
+*.log
+crash-reports/
+*.txt
+!server/eula.txt
+
+# Tunnel Secrets & Authentication Tokens (SENSITIVE - NEVER UPLOAD)
+playit.toml
+**/playit.toml
+*.pem
+*.key
+saved-refresh-tokens.json
+**/saved-refresh-tokens.json
+
+# Player Data & User Cache
+server/usercache.json
+server/ops.json
+server/whitelist.json
+server/banned-players.json
+server/banned-ips.json
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.bak
